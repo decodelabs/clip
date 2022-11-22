@@ -17,7 +17,7 @@ use DecodeLabs\Terminus;
 
 class Generic implements Controller
 {
-    public function run(): void
+    public function run(): bool
     {
         $args = Terminus::prepareArguments();
         $task = Coercion::toString($args['task']);
@@ -34,6 +34,6 @@ class Generic implements Controller
         );
 
         $task = new $class();
-        $task->execute();
+        return $task->execute();
     }
 }

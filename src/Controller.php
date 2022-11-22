@@ -11,5 +11,5 @@ namespace DecodeLabs\Clip;
 
 interface Controller
 {
-    public function run(): void;
+    public function run(): bool;
 }
