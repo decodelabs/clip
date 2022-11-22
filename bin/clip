@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+/**
+ * @package Clip
+ * @license http://opensource.org/licenses/MIT
+ */
+
+declare(strict_types=1);
+
+namespace DecodeLabs\Clip;
+
+use DecodeLabs\Genesis;
+use DecodeLabs\Clip\Hub;
+
+foreach ([
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php'
+] as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
+
+
+Genesis::run(Hub::class);
