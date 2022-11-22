@@ -10,18 +10,27 @@ declare(strict_types=1);
 namespace DecodeLabs\Clip;
 
 use DecodeLabs\Archetype;
-use DecodeLabs\Coercion;
+use DecodeLabs\Clip\Controller\Generic as GenericController;
 use DecodeLabs\Dictum;
+use DecodeLabs\Genesis\Context;
 use DecodeLabs\Genesis\Kernel as KernelInterface;
 use DecodeLabs\Terminus;
 
 class Kernel implements KernelInterface
 {
+    protected Context $context;
+
+    public function __construct(Context $context)
+    {
+        $this->context = $context;
+    }
+
     /**
      * Initialize platform systems
      */
     public function initialize(): void
     {
+        // Task name
         Archetype::registerCustomNormalizer(
             Task::class,
             function (string $name): string {
@@ -35,9 +44,10 @@ class Kernel implements KernelInterface
             }
         );
 
-        // Cli args
-        Terminus::getCommandDefinition()
-            ->addArgument('task', 'Task path');
+        // Controller
+        if (!$this->context->container->has(Controller::class)) {
+            $this->context->container->bindShared(Controller::class, GenericController::class);
+        }
     }
 
     /**
@@ -55,22 +65,11 @@ class Kernel implements KernelInterface
     {
         set_time_limit(0);
 
-        $args = Terminus::prepareArguments();
-        $task = Coercion::toString($args['task']);
-        $class = Archetype::resolve(Task::class, $task);
+        $controller = $this->context->container->get(Controller::class);
 
-        $request = Terminus::getRequest();
-        $requestArgs = $request->getArguments();
-        array_shift($requestArgs);
-
-        Terminus::setRequest(
-            $request
-                ->withScript($task)
-                ->withArguments($requestArgs)
-        );
-
-        $task = new $class();
-        $task->execute();
+        /** @var array<string> */
+        $args = array_values(Terminus::getRequest()->getArguments());
+        $controller->run(...$args);
     }
 
     /**

@@ -13,7 +13,6 @@ use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
 use DecodeLabs\Exceptional;
-use DecodeLabs\Fluidity\Cast;
 use DecodeLabs\Fluidity\CastTrait;
 use DecodeLabs\Genesis\Build;
 use DecodeLabs\Genesis\Build\Manifest as BuildManifest;
@@ -23,9 +22,7 @@ use DecodeLabs\Genesis\Hub as HubInterface;
 use DecodeLabs\Genesis\Loader\Stack as StackLoader;
 use DecodeLabs\Glitch;
 
-class Hub implements
-    HubInterface,
-    Cast
+class Hub implements HubInterface
 {
     use CastTrait;
 
@@ -152,7 +149,7 @@ class Hub implements
      */
     public function loadKernel(): Kernel
     {
-        return new Kernel();
+        return new Kernel($this->context);
     }
 
     public function getBuildManifest(): ?BuildManifest

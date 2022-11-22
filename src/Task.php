@@ -11,5 +11,5 @@ namespace DecodeLabs\Clip;
 
 interface Task
 {
-    public function execute(): void;
+    public function execute(): bool;
 }
