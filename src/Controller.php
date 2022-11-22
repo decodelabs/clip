@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip;
 
-interface Task
+interface Controller
 {
-    public function execute(): bool;
+    public function run(): void;
 }

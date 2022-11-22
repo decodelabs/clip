@@ -1,3 +1,4 @@
+* Added Controller structure
 * Updated Genesis for Fluidity Cast
 
 ## v0.1.1 (2022-11-22)

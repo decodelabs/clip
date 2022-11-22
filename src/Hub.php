@@ -149,7 +149,7 @@ class Hub implements HubInterface
      */
     public function loadKernel(): Kernel
     {
-        return new Kernel();
+        return new Kernel($this->context);
     }
 
     public function getBuildManifest(): ?BuildManifest
