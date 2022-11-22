@@ -30,6 +30,7 @@ class Kernel implements KernelInterface
      */
     public function initialize(): void
     {
+        // Task name
         Archetype::registerCustomNormalizer(
             Task::class,
             function (string $name): string {
@@ -42,10 +43,6 @@ class Kernel implements KernelInterface
                 return implode('\\', $parts);
             }
         );
-
-        // Cli args
-        Terminus::getCommandDefinition()
-            ->addArgument('task', 'Task path');
 
         // Controller
         if (!$this->context->container->has(Controller::class)) {

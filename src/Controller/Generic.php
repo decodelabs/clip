@@ -17,6 +17,13 @@ use DecodeLabs\Terminus;
 
 class Generic implements Controller
 {
+    public function __construct()
+    {
+        // Cli args
+        Terminus::getCommandDefinition()
+            ->addArgument('task', 'Task path');
+    }
+
     public function run(): bool
     {
         $args = Terminus::prepareArguments();
