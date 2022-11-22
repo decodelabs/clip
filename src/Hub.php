@@ -13,6 +13,8 @@ use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
 use DecodeLabs\Exceptional;
+use DecodeLabs\Fluidity\Cast;
+use DecodeLabs\Fluidity\CastTrait;
 use DecodeLabs\Genesis\Build;
 use DecodeLabs\Genesis\Build\Manifest as BuildManifest;
 use DecodeLabs\Genesis\Context;
@@ -21,9 +23,16 @@ use DecodeLabs\Genesis\Hub as HubInterface;
 use DecodeLabs\Genesis\Loader\Stack as StackLoader;
 use DecodeLabs\Glitch;
 
-class Hub implements HubInterface
+class Hub implements
+    HubInterface,
+    Cast
 {
-    protected Dir $appDir;
+    use CastTrait;
+
+    public Dir $appDir;
+    public Dir $runDir;
+    public File $composerFile;
+
     protected Context $context;
 
     public function __construct(
@@ -37,9 +46,9 @@ class Hub implements HubInterface
             throw Exceptional::Runtime('Unable to get current working directory');
         }
 
-        $runDir = Atlas::dir($dir);
-        $composerFile = $this->findComposerJson($runDir);
-        $this->appDir = $composerFile->getParent() ?? $runDir;
+        $this->runDir = Atlas::dir($dir);
+        $this->composerFile = $this->findComposerJson($this->runDir);
+        $this->appDir = $this->composerFile->getParent() ?? clone $this->runDir;
     }
 
 
@@ -69,7 +78,7 @@ class Hub implements HubInterface
      */
     public function getApplicationPath(): string
     {
-        return (string)getcwd();
+        return (string)$this->appDir;
     }
 
     /**

@@ -16,7 +16,8 @@
         "decodelabs/dictum": "^0.4.4",
         "decodelabs/exceptional": "^0.4.3",
         "decodelabs/genesis": "^0.6.2",
-        "decodelabs/glitch": "^0.18.5"
+        "decodelabs/glitch": "^0.18.5",
+        "decodelabs/fluidity": "^0.3.3"
     },
     "require-dev": {
         "decodelabs/phpstan-decodelabs": "^0.6.1"
