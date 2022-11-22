@@ -66,7 +66,10 @@ class Kernel implements KernelInterface
         set_time_limit(0);
 
         $controller = $this->context->container->get(Controller::class);
-        $controller->run();
+
+        /** @var array<string> */
+        $args = array_values(Terminus::getRequest()->getArguments());
+        $controller->run(...$args);
     }
 
     /**

@@ -10,37 +10,64 @@ declare(strict_types=1);
 namespace DecodeLabs\Clip\Controller;
 
 use DecodeLabs\Archetype;
+use DecodeLabs\Archetype\Exception as ArchetypeException;
 use DecodeLabs\Clip\Controller;
 use DecodeLabs\Clip\Task;
-use DecodeLabs\Coercion;
+use DecodeLabs\Exceptional;
 use DecodeLabs\Terminus;
 
 class Generic implements Controller
 {
-    public function __construct()
-    {
-        // Cli args
-        Terminus::getCommandDefinition()
-            ->addArgument('task', 'Task path');
+    /**
+     * Run controller
+     */
+    public function run(
+        string $script,
+        string ...$args
+    ): bool {
+        return $this->runTask($script, $args);
     }
 
-    public function run(): bool
-    {
-        $args = Terminus::prepareArguments();
-        $task = Coercion::toString($args['task']);
-        $class = Archetype::resolve(Task::class, $task);
+    /**
+     * Has task
+     */
+    public function taskExists(
+        string $name
+    ): bool {
+        return $this->getTaskClass($name) !== null;
+    }
 
-        $request = Terminus::getRequest();
-        $requestArgs = $request->getArguments();
-        array_shift($requestArgs);
+
+    /**
+     * Run command
+     */
+    public function runTask(
+        string $name,
+        array $args = []
+    ): bool {
+        if (!$class = $this->getTaskClass($name)) {
+            throw Exceptional::NotFound('Task "' . $name . '" could not be found');
+        }
 
         Terminus::setRequest(
-            $request
-                ->withScript($task)
-                ->withArguments($requestArgs)
+            Terminus::getRequest()
+                ->withScript($name)
+                ->withArguments($args)
         );
 
-        $task = new $class();
+        $task = new $class($this);
         return $task->execute();
+    }
+
+    /**
+     * Get command class
+     */
+    public function getTaskClass(string $name): ?string
+    {
+        try {
+            return Archetype::resolve(Task::class, $name);
+        } catch (ArchetypeException $e) {
+            return null;
+        }
     }
 }
