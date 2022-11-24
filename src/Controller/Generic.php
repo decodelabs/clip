@@ -31,7 +31,7 @@ class Generic implements Controller
     /**
      * Has task
      */
-    public function taskExists(
+    public function hasTask(
         string $name
     ): bool {
         return $this->getTaskClass($name) !== null;

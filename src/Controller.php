@@ -22,7 +22,7 @@ interface Controller
     /**
      * Has task
      */
-    public function taskExists(
+    public function hasTask(
         string $name
     ): bool;
 
