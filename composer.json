@@ -10,6 +10,8 @@
     }],
     "require": {
         "php": "^8.0",
+        "composer-runtime-api": "^2.2",
+
         "decodelabs/archetype": "^0.2.10",
         "decodelabs/atlas": "^0.10.5",
         "decodelabs/coercion": "^0.2.6",
@@ -29,7 +31,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-develop": "0.2.x-dev"
+            "dev-develop": "0.3.x-dev"
         }
     }
 }
