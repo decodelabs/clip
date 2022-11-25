@@ -1,3 +1,6 @@
+## v0.3.1 (2022-11-25)
+* Added GenerateFileTrait from Effigy
+
 ## v0.3.0 (2022-11-24)
 * Renamed taskExists to hasTask in Controller
 * Simplified bin path handling
