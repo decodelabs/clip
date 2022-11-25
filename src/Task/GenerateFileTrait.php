@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Clip\Task;
 
 use DecodeLabs\Atlas\File;
-use DecodeLabs\Clip\Template;
+use DecodeLabs\Genesis\FileTemplate;
 use DecodeLabs\Terminus as Cli;
 
 trait GenerateFileTrait
@@ -47,7 +47,7 @@ trait GenerateFileTrait
     }
 
     abstract protected function getTargetFile(): File;
-    abstract protected function getTemplate(): Template;
+    abstract protected function getTemplate(): FileTemplate;
 
     protected function afterFileSave(File $file): bool
     {

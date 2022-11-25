@@ -1,3 +1,6 @@
+## v0.3.2 (2022-11-25)
+* Fixed Template ref in GenerateFileTrait
+
 ## v0.3.1 (2022-11-25)
 * Added GenerateFileTrait from Effigy
 
