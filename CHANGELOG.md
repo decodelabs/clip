@@ -1,3 +1,6 @@
+* Updated Dictum dependency
+* Removed clip bin
+
 ## v0.3.2 (2022-11-25)
 * Fixed Template ref in GenerateFileTrait
 
