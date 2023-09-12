@@ -1,3 +1,5 @@
+* Added hooks to Tasks
+
 ## v0.3.3 (2022-11-28)
 * Updated Dictum dependency
 * Removed clip bin

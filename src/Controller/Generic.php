@@ -13,6 +13,8 @@ use DecodeLabs\Archetype;
 use DecodeLabs\Archetype\Exception as ArchetypeException;
 use DecodeLabs\Clip\Controller;
 use DecodeLabs\Clip\Task;
+use DecodeLabs\Clip\Task\AfterHook;
+use DecodeLabs\Clip\Task\BeforeHook;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Terminus;
 
@@ -56,7 +58,26 @@ class Generic implements Controller
         );
 
         $task = new $class($this);
-        return $task->execute();
+
+        if (
+            $task instanceof BeforeHook &&
+            !$task->beforeExecute()
+        ) {
+            return false;
+        }
+
+        if (!$task->execute()) {
+            return false;
+        }
+
+        if (
+            $task instanceof AfterHook &&
+            !$task->afterExecute()
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
