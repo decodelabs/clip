@@ -1,3 +1,6 @@
+## v0.3.5 (2023-09-26)
+* Converted phpstan doc comments to generic
+
 ## v0.3.4 (2023-09-12)
 * Added hooks to Tasks
 
