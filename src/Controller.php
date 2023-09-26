@@ -38,7 +38,7 @@ interface Controller
     /**
      * Get command class
      *
-     * @phpstan-return class-string<Task>|null
+     * @return class-string<Task>|null
      */
     public function getTaskClass(
         string $name
