@@ -17,17 +17,15 @@ trait GenerateFileTrait
 {
     public function execute(): bool
     {
-        Cli::getCommandDefinition()
+        Cli::$command
             ->addArgument('-check|c', 'Check if file exists');
-
-        Cli::prepareArguments();
 
         $target = $this->getTargetFile();
 
         if (
             $target->exists() &&
             (
-                Cli::getArgument('check') ||
+                Cli::$command['check'] ||
                 !Cli::confirm($target->getName() . ' exists - overwrite?')
             )
         ) {
