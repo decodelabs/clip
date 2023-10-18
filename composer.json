@@ -18,7 +18,7 @@
         "decodelabs/dictum": "^0.5",
         "decodelabs/exceptional": "^0.4.3",
         "decodelabs/fluidity": "^0.3.3",
-        "decodelabs/genesis": "^0.7",
+        "decodelabs/genesis": "^0.7|^0.8",
         "decodelabs/glitch": "^0.18.5",
         "decodelabs/terminus": "^0.10"
     },
