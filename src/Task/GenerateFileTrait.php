@@ -47,8 +47,9 @@ trait GenerateFileTrait
     abstract protected function getTargetFile(): File;
     abstract protected function getTemplate(): FileTemplate;
 
-    protected function afterFileSave(File $file): bool
-    {
+    protected function afterFileSave(
+        File $file
+    ): bool {
         return true;
     }
 }

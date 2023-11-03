@@ -20,8 +20,9 @@ class Kernel implements KernelInterface
 {
     protected Context $context;
 
-    public function __construct(Context $context)
-    {
+    public function __construct(
+        Context $context
+    ) {
         $this->context = $context;
     }
 
@@ -46,7 +47,10 @@ class Kernel implements KernelInterface
 
         // Controller
         if (!$this->context->container->has(Controller::class)) {
-            $this->context->container->bindShared(Controller::class, GenericController::class);
+            $this->context->container->bindShared(
+                Controller::class,
+                GenericController::class
+            );
         }
     }
 

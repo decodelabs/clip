@@ -83,8 +83,9 @@ class Generic implements Controller
     /**
      * Get command class
      */
-    public function getTaskClass(string $name): ?string
-    {
+    public function getTaskClass(
+        string $name
+    ): ?string {
         try {
             return Archetype::resolve(Task::class, $name);
         } catch (ArchetypeException $e) {
