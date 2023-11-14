@@ -1,3 +1,7 @@
+## v0.3.9 (2023-11-14)
+* Updated Dictum dependency
+* Made PHP8.1 minimum version
+
 ## v0.3.8 (2023-10-18)
 * Updated Genesis dependency
 

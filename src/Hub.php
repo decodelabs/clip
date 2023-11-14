@@ -52,8 +52,9 @@ class Hub implements HubInterface
     /**
      * Find composer json
      */
-    protected function findComposerJson(Dir $runDir): File
-    {
+    protected function findComposerJson(
+        Dir $runDir
+    ): File {
         $dir = $runDir;
 
         do {
@@ -117,8 +118,9 @@ class Hub implements HubInterface
     /**
      * Setup loaders
      */
-    public function initializeLoaders(StackLoader $stack): void
-    {
+    public function initializeLoaders(
+        StackLoader $stack
+    ): void {
     }
 
     /**
