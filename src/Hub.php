@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip;
 
+use DecodeLabs\Archetype;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
@@ -144,6 +145,9 @@ class Hub implements HubInterface
                 'vendor' => $this->appDir . '/vendor'
             ])
             ->registerAsErrorHandler();
+
+        // Setup Archetype
+        Normalizer::ensureRegistered();
     }
 
     /**

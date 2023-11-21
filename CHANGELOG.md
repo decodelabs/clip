@@ -1,3 +1,5 @@
+* Added reusable task Archetype Normalizer
+
 ## v0.3.9 (2023-11-14)
 * Updated Dictum dependency
 * Made PHP8.1 minimum version
