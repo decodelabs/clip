@@ -1,3 +1,4 @@
+## v0.3.10 (2023-11-21)
 * Added reusable task Archetype Normalizer
 
 ## v0.3.9 (2023-11-14)
