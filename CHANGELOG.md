@@ -1,3 +1,7 @@
+## v0.3.11 (2024-04-26)
+* Updated Archetype dependency
+* Updated dependency list
+
 ## v0.3.10 (2023-11-21)
 * Added reusable task Archetype Normalizer
 
