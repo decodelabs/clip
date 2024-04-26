@@ -50,7 +50,7 @@ class Hub extends ClipHub
         parent::initializePlatform();
 
         // Load tasks from local namespace
-        Archetype::extend(TaskInterface::class, Task::class);
+        Archetype::map(TaskInterface::class, Task::class);
 
         // Create and load your controller (or use Generic)
         $controller = new Controller();
