@@ -29,6 +29,9 @@
             "DecodeLabs\\Clip\\": "src/"
         }
     },
+    "bin": [
+        "bin/clip"
+    ],
     "extra": {
         "branch-alias": {
             "dev-develop": "0.3.x-dev"
