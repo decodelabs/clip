@@ -1,3 +1,5 @@
+* Updated depdency versions
+
 ## v0.3.11 (2024-07-12)
 * Added basic clip bin
 
