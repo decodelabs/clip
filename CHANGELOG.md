@@ -1,7 +1,8 @@
+## v0.3.13 (2024-08-09)
 * Send proper exit code based on success/failure
 * Updated depdency versions
 
-## v0.3.11 (2024-07-12)
+## v0.3.12 (2024-07-12)
 * Added basic clip bin
 
 ## v0.3.11 (2024-04-26)
