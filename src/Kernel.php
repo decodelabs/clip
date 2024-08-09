@@ -17,6 +17,7 @@ use DecodeLabs\Terminus;
 class Kernel implements KernelInterface
 {
     protected Context $context;
+    protected ?bool $result;
 
     public function __construct(
         Context $context
@@ -60,7 +61,7 @@ class Kernel implements KernelInterface
 
         /** @var array<string> */
         $args = array_values(Terminus::getRequest()->getArguments());
-        $controller->run(...$args);
+        $this->result = $controller->run(...$args);
     }
 
     /**
@@ -68,5 +69,10 @@ class Kernel implements KernelInterface
      */
     public function shutdown(): void
     {
+        match ($this->result) {
+            true => exit(0),
+            false => exit(1),
+            null => exit(1)
+        };
     }
 }
