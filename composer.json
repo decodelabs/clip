@@ -13,11 +13,11 @@
         "composer-runtime-api": "^2.2",
 
         "decodelabs/archetype": "^0.3",
-        "decodelabs/atlas": "^0.11",
+        "decodelabs/atlas": "^0.12",
         "decodelabs/dictum": "^0.6",
         "decodelabs/exceptional": "^0.4.3",
         "decodelabs/fluidity": "^0.3.3",
-        "decodelabs/genesis": "^0.8",
+        "decodelabs/genesis": "^0.9",
         "decodelabs/glitch": "^0.18.5",
         "decodelabs/terminus": "^0.10"
     },
