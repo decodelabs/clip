@@ -1,3 +1,7 @@
+## v0.3.14 (2024-08-21)
+* Updated Atlas dependency
+* Updated Genesis dependency
+
 ## v0.3.13 (2024-08-09)
 * Send proper exit code based on success/failure
 * Updated depdency versions

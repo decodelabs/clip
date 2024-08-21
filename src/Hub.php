@@ -139,7 +139,7 @@ class Hub implements HubInterface
     {
         // Setup Glitch
         Glitch::setStartTime($this->context->getstartTime())
-            ->setRunMode($this->context->environment->getMode())
+            ->setRunMode($this->context->environment->getMode()->value)
             ->registerPathAliases([
                 'app' => (string)$this->appDir,
                 'vendor' => $this->appDir . '/vendor'
