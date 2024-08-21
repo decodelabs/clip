@@ -1,3 +1,4 @@
+## v0.3.14 (2024-08-21)
 * Updated Atlas dependency
 * Updated Genesis dependency
 
