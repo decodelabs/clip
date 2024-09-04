@@ -1,3 +1,4 @@
+## v0.3.15 (2024-09-04)
 * Added Effigy support task
 
 ## v0.3.14 (2024-08-21)
