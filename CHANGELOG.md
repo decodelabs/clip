@@ -1,3 +1,5 @@
+* Added PHP8.4 to CI workflow
+
 ## v0.3.15 (2024-09-04)
 * Added Effigy support task
 
