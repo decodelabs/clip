@@ -1,3 +1,11 @@
+## v0.3.16 (2025-02-13)
+* Upgraded PHPStan to v2
+* Updated dependencies
+* Tidied boolean logic
+* Fixed Exceptional syntax
+* Added PHP8.4 to CI workflow
+* Made PHP8.4 minimum version
+
 ## v0.3.15 (2024-09-04)
 * Added Effigy support task
 

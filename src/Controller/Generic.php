@@ -48,7 +48,9 @@ class Generic implements Controller
         array $args = []
     ): bool {
         if (!$class = $this->getTaskClass($name)) {
-            throw Exceptional::NotFound('Task "' . $name . '" could not be found');
+            throw Exceptional::NotFound(
+                message: 'Task "' . $name . '" could not be found'
+            );
         }
 
         Terminus::setRequest(
@@ -86,10 +88,6 @@ class Generic implements Controller
     public function getTaskClass(
         string $name
     ): ?string {
-        try {
-            return Archetype::resolve(Task::class, $name);
-        } catch (ArchetypeException $e) {
-            return null;
-        }
+        return Archetype::tryResolve(Task::class, $name);
     }
 }
