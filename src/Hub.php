@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip;
 
-use DecodeLabs\Archetype;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
@@ -41,7 +40,9 @@ class Hub implements HubInterface
         unset($options);
 
         if (false === ($dir = getcwd())) {
-            throw Exceptional::Runtime('Unable to get current working directory');
+            throw Exceptional::Runtime(
+                message: 'Unable to get current working directory'
+            );
         }
 
         $this->runDir = Atlas::dir($dir);
@@ -139,7 +140,7 @@ class Hub implements HubInterface
     {
         // Setup Glitch
         Glitch::setStartTime($this->context->getstartTime())
-            ->setRunMode($this->context->environment->getMode()->value)
+            ->setRunMode($this->context->environment->mode->value)
             ->registerPathAliases([
                 'app' => (string)$this->appDir,
                 'vendor' => $this->appDir . '/vendor'
