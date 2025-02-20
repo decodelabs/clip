@@ -14,10 +14,11 @@
 
         "decodelabs/archetype": "^0.3.8",
         "decodelabs/atlas": "^0.12.3",
+        "decodelabs/coercion": "^0.3",
         "decodelabs/dictum": "^0.6.9",
         "decodelabs/exceptional": "^0.5.2",
         "decodelabs/fluidity": "^0.3.6",
-        "decodelabs/genesis": "^0.10",
+        "decodelabs/genesis": "^0.11",
         "decodelabs/glitch": "^0.19",
         "decodelabs/terminus": "^0.11"
     },
