@@ -22,7 +22,7 @@ class HasTask implements Task
         Cli::$command
             ->addArgument('name', 'Task name to check');
 
-        $name = Coercion::toString(Cli::$command['name']);
+        $name = Coercion::asString(Cli::$command['name']);
         $controller = Genesis::$container->get(Controller::class);
         Cli::write($controller->hasTask($name) ? 'true' : 'false');
         return true;

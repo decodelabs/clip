@@ -26,6 +26,28 @@ class Hub implements HubInterface
 {
     use CastTrait;
 
+    public string $applicationName {
+        get => 'Clip';
+    }
+
+    public string $applicationPath {
+        get => $this->appDir->getPath();
+    }
+
+    public string $localDataPath {
+        get => sys_get_temp_dir();
+    }
+
+    public string $sharedDataPath {
+        get => $this->localDataPath;
+    }
+
+    public ?BuildManifest $buildManifest {
+        get => null;
+    }
+
+
+
     public Dir $appDir;
     public Dir $runDir;
     public File $composerFile;
@@ -72,40 +94,6 @@ class Hub implements HubInterface
         return $runDir->getFile('composer.json');
     }
 
-
-    /**
-     * Get application path
-     */
-    public function getApplicationPath(): string
-    {
-        return (string)$this->appDir;
-    }
-
-    /**
-     * Get local data path
-     */
-    public function getLocalDataPath(): string
-    {
-        return sys_get_temp_dir();
-    }
-
-    /**
-     * Get shared data path
-     */
-    public function getSharedDataPath(): string
-    {
-        return $this->getLocalDataPath();
-    }
-
-
-    /**
-     * Get application name
-     */
-    public function getApplicationName(): string
-    {
-        return 'Clip';
-    }
-
     /**
      * Load build info
      */
@@ -113,7 +101,7 @@ class Hub implements HubInterface
     {
         return new Build(
             $this->context,
-            $this->getApplicationPath()
+            $this->applicationPath
         );
     }
 
@@ -157,10 +145,5 @@ class Hub implements HubInterface
     public function loadKernel(): Kernel
     {
         return new Kernel($this->context);
-    }
-
-    public function getBuildManifest(): ?BuildManifest
-    {
-        return null;
     }
 }

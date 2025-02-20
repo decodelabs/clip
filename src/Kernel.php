@@ -16,6 +16,10 @@ use DecodeLabs\Terminus;
 
 class Kernel implements KernelInterface
 {
+    public string $mode {
+        get => 'Clip';
+    }
+
     protected Context $context;
     protected ?bool $result;
 
@@ -40,14 +44,6 @@ class Kernel implements KernelInterface
                 GenericController::class
             );
         }
-    }
-
-    /**
-     * Get run mode
-     */
-    public function getMode(): string
-    {
-        return 'Clip';
     }
 
     /**
