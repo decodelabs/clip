@@ -1,3 +1,10 @@
+## v0.4.0 (2025-04-09)
+* Upgraded Genesis dependency
+* Refactored Bootstrap handling
+* Upgraded Kernel interface
+* Always ensure Clip facade is available
+* Removed clip bin
+
 ## v0.3.17 (2025-02-20)
 * Upgraded Coercion dependency
 * Upgraded Genesis dependency

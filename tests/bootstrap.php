@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 /**
  * @package Clip
@@ -9,8 +8,11 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip;
 
-use DecodeLabs\Genesis;
+require_once 'vendor/autoload.php';
+
+use DecodeLabs\Genesis\Bootstrap\Analysis;
 use DecodeLabs\Clip\Hub;
 
-require_once $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
-Genesis::run(Hub::class);
+new Analysis(
+    hubClass: Hub::class
+)->initializeOnly();
