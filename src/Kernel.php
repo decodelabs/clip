@@ -24,7 +24,7 @@ class Kernel implements KernelInterface
     }
 
     protected Context $context;
-    protected ?bool $result;
+    protected ?bool $result = null;
 
     public function __construct(
         Context $context

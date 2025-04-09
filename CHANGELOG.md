@@ -1,3 +1,6 @@
+## v0.4.1 (2025-04-09)
+* Fixed uninitialised kernel result
+
 ## v0.4.0 (2025-04-09)
 * Upgraded Genesis dependency
 * Refactored Bootstrap handling
