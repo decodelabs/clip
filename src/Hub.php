@@ -12,8 +12,11 @@ namespace DecodeLabs\Clip;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
+use DecodeLabs\Clip;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Fluidity\CastTrait;
+use DecodeLabs\Genesis\Bootstrap;
+use DecodeLabs\Genesis\Bootstrap\Bin as BinBootstrap;
 use DecodeLabs\Genesis\Build;
 use DecodeLabs\Genesis\Build\Manifest as BuildManifest;
 use DecodeLabs\Genesis\Context;
@@ -21,6 +24,9 @@ use DecodeLabs\Genesis\Environment\Config as EnvConfig;
 use DecodeLabs\Genesis\Hub as HubInterface;
 use DecodeLabs\Genesis\Loader\Stack as StackLoader;
 use DecodeLabs\Glitch;
+use DecodeLabs\Monarch;
+use DecodeLabs\Pandora\Container;
+use DecodeLabs\Veneer;
 
 class Hub implements HubInterface
 {
@@ -31,45 +37,35 @@ class Hub implements HubInterface
     }
 
     public string $applicationPath {
-        get => $this->appDir->getPath();
-    }
-
-    public string $localDataPath {
-        get => sys_get_temp_dir();
-    }
-
-    public string $sharedDataPath {
-        get => $this->localDataPath;
+        get => Monarch::$paths->root;
     }
 
     public ?BuildManifest $buildManifest {
         get => null;
     }
 
-
-
-    public Dir $appDir;
-    public Dir $runDir;
-    public File $composerFile;
-
     protected Context $context;
 
     public function __construct(
         Context $context,
-        array $options
+        Bootstrap $bootstrap
     ) {
-        $this->context = $context;
-        unset($options);
-
-        if (false === ($dir = getcwd())) {
-            throw Exceptional::Runtime(
-                message: 'Unable to get current working directory'
+        if(!($bootstrap instanceof BinBootstrap)) {
+            throw Exceptional::InvalidArgument(
+                'Bootstrap must be a DecodeLabs\\Genesis\\Bootstrap\\Bin'
             );
         }
 
-        $this->runDir = Atlas::dir($dir);
-        $this->composerFile = $this->findComposerJson($this->runDir);
-        $this->appDir = $this->composerFile->getParent() ?? clone $this->runDir;
+        $this->context = $context;
+        $workingDir = Atlas::dir($bootstrap->rootPath);
+        $composerFile = $this->findComposerJson($workingDir);
+        $appDir = $composerFile->getParent() ?? $workingDir;
+
+        Monarch::$paths->root = $appDir->getPath();
+        Monarch::$paths->run = $appDir->getPath();
+        Monarch::$paths->working = $workingDir->getPath();
+        Monarch::$paths->localData = sys_get_temp_dir();
+        Monarch::$paths->sharedData = sys_get_temp_dir();
     }
 
 
@@ -101,7 +97,7 @@ class Hub implements HubInterface
     {
         return new Build(
             $this->context,
-            $this->applicationPath
+            Monarch::$paths->run
         );
     }
 
@@ -128,15 +124,21 @@ class Hub implements HubInterface
     {
         // Setup Glitch
         Glitch::setStartTime($this->context->getstartTime())
-            ->setRunMode($this->context->environment->mode->value)
+            ->setRunMode(Monarch::getEnvironmentMode()->value)
             ->registerPathAliases([
-                'app' => (string)$this->appDir,
-                'vendor' => $this->appDir . '/vendor'
+                'app' => Monarch::$paths->root,
+                'vendor' => Monarch::$paths->root . '/vendor'
             ])
             ->registerAsErrorHandler();
 
         // Setup Archetype
         Normalizer::ensureRegistered();
+
+        if(Monarch::$container instanceof Container) {
+            Monarch::$container->bindShared(
+                Controller::class
+            );
+        }
     }
 
     /**

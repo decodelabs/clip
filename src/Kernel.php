@@ -9,9 +9,12 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip;
 
+use DecodeLabs\Clip;
 use DecodeLabs\Clip\Controller\Generic as GenericController;
 use DecodeLabs\Genesis\Context;
 use DecodeLabs\Genesis\Kernel as KernelInterface;
+use DecodeLabs\Monarch;
+use DecodeLabs\Pandora\Container;
 use DecodeLabs\Terminus;
 
 class Kernel implements KernelInterface
@@ -38,8 +41,11 @@ class Kernel implements KernelInterface
         Normalizer::ensureRegistered();
 
         // Controller
-        if (!$this->context->container->has(Controller::class)) {
-            $this->context->container->bindShared(
+        if (
+            Monarch::$container instanceof Container &&
+            !Monarch::$container->has(Controller::class)
+        ) {
+            Monarch::$container->bindShared(
                 Controller::class,
                 GenericController::class
             );
@@ -53,17 +59,15 @@ class Kernel implements KernelInterface
     {
         set_time_limit(0);
 
-        $controller = $this->context->container->get(Controller::class);
-
         /** @var array<string> */
         $args = array_values(Terminus::getRequest()->getArguments());
-        $this->result = $controller->run(...$args);
+        $this->result = Clip::run(...$args);
     }
 
     /**
      * Shutdown app
      */
-    public function shutdown(): void
+    public function shutdown(): never
     {
         match ($this->result) {
             true => exit(0),

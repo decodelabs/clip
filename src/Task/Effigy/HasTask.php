@@ -9,10 +9,9 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip\Task\Effigy;
 
-use DecodeLabs\Clip\Controller;
+use DecodeLabs\Clip;
 use DecodeLabs\Clip\Task;
 use DecodeLabs\Coercion;
-use DecodeLabs\Genesis;
 use DecodeLabs\Terminus as Cli;
 
 class HasTask implements Task
@@ -23,8 +22,13 @@ class HasTask implements Task
             ->addArgument('name', 'Task name to check');
 
         $name = Coercion::asString(Cli::$command['name']);
-        $controller = Genesis::$container->get(Controller::class);
-        Cli::write($controller->hasTask($name) ? 'true' : 'false');
+
+        if(class_exists(Clip::class)) {
+            Cli::write(Clip::hasTask($name) ? 'true' : 'false');
+        } else {
+            Cli::write('false');
+        }
+
         return true;
     }
 }

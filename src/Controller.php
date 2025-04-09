@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip;
 
+use DecodeLabs\Clip;
+use DecodeLabs\Veneer;
+
 interface Controller
 {
     /**
@@ -44,3 +47,8 @@ interface Controller
         string $name
     ): ?string;
 }
+
+Veneer::register(
+    Controller::class,
+    Clip::class
+);

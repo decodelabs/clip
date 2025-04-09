@@ -38,6 +38,8 @@ use DecodeLabs\Archetype;
 use DecodeLabs\Clip\Controller as ControllerInterface;
 use DecodeLabs\Clip\Hub as ClipHub;
 use DecodeLabs\Clip\Task as TaskInterface;
+use DecodeLabs\Monarch;
+use DecodeLabs\Pandora\Container;
 use DecodeLabs\Veneer;
 use MyThing;
 use MyThing\Controller;
@@ -53,9 +55,12 @@ class Hub extends ClipHub
         Archetype::map(TaskInterface::class, Task::class);
 
         // Create and load your controller (or use Generic)
-        $controller = new Controller();
-        $this->context->container->bindShared(ControllerInterface::class, $controller);
-        $this->context->container->bindShared(Controller::class, $controller);
+        if(Monarch::$container instanceof Container) {
+            $controller = new Controller();
+
+            Monarch::$container->bindShared(ControllerInterface::class, $controller);
+            Monarch::$container->bindShared(Controller::class, $controller);
+        }
 
         // Bind your controller with Veneer
         Veneer::register(Controller::class, MyThing::class);
@@ -68,11 +73,11 @@ With this hub in place, you can run tasks defined in your nominated namespace fr
 ```php
 namespace MyThing;
 
-use DecodeLabs\Genesis;
+use DecodeLabs\Genesis\Bootstrap\Bin as BinBootstrap;
 use MyThing\Hub;
 
 require_once $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
-Genesis::run(Hub::class);
+new BinBootstrap(Hub::class)->run();
 ```
 
 ```json
