@@ -25,7 +25,7 @@ composer require decodelabs/clip
 
 ## Usage
 
-Clip is a middleware library that provides an out-of-the-box setup for implementing a Genesis based CLI task runner. This means you don't really interact with it much, except when setting up the core of your task running infrastructure.
+Clip is a middleware library that provides an out-of-the-box setup for implementing a Genesis based CLI task runner. This means you don't really interact with it much directly, except when setting up the core of your task running infrastructure.
 
 ### Create your Hub
 
