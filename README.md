@@ -11,8 +11,6 @@
 
 Clip provides a framework for building comprehensive CLI based applications on top of [Genesis](https://github.com/decodelabs/genesis).
 
-_Get news and updates on the [DecodeLabs blog](https://blog.decodelabs.com)._
-
 ---
 
 ## Installation
