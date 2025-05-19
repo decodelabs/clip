@@ -5,10 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+--
+
+---
+
+### [v0.5.0](https://github.com/decodelabs/clip/commits/v0.5.0) - 19th May 2025
+
 - Converted to use Commandment Dispatcher as Controller
 - Removed Archetype Normalizer
 - Removed Task Hook interfaces
 - Ported HasTask to Commandment
+
+[Full list of changes](https://github.com/decodelabs/clip/compare/v0.4.1...v0.5.0)
 
 ---
 
