@@ -18,16 +18,16 @@ class Clip implements Proxy
 
     protected static Inst $_veneerInstance;
 
-    public static function run(string $arg, string ...$args): bool {
+    public static function run(string $action, string ...$args): bool {
         return static::$_veneerInstance->run(...func_get_args());
     }
-    public static function hasTask(string $name): bool {
-        return static::$_veneerInstance->hasTask(...func_get_args());
+    public static function hasAction(string $name): bool {
+        return static::$_veneerInstance->hasAction(...func_get_args());
     }
-    public static function runTask(string $name, array $args = []): ?bool {
-        return static::$_veneerInstance->runTask(...func_get_args());
+    public static function runAction(string $name, array $args = []): ?bool {
+        return static::$_veneerInstance->runAction(...func_get_args());
     }
-    public static function getTaskClass(string $name): ?string {
-        return static::$_veneerInstance->getTaskClass(...func_get_args());
+    public static function getActionClass(string $name): ?string {
+        return static::$_veneerInstance->getActionClass(...func_get_args());
     }
 };

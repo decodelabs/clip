@@ -10,40 +10,32 @@ declare(strict_types=1);
 namespace DecodeLabs\Clip;
 
 use DecodeLabs\Clip;
+use DecodeLabs\Commandment\Action;
 use DecodeLabs\Veneer;
 
 interface Controller
 {
-    /**
-     * Run controller
-     */
     public function run(
-        string $arg,
+        string $action,
         string ...$args
     ): bool;
 
-    /**
-     * Has task
-     */
-    public function hasTask(
+    public function hasAction(
         string $name
     ): bool;
 
     /**
-     * Run command
-     * @param array<string> $args
+     * @param list<string> $args
      */
-    public function runTask(
+    public function runAction(
         string $name,
         array $args = []
     ): ?bool;
 
     /**
-     * Get command class
-     *
-     * @return class-string<Task>|null
+     * @return class-string<Action>|null
      */
-    public function getTaskClass(
+    public function getActionClass(
         string $name
     ): ?string;
 }

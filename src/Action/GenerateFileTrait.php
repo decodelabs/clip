@@ -7,35 +7,46 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Clip\Task;
+namespace DecodeLabs\Clip\Action;
 
 use DecodeLabs\Atlas\File;
+use DecodeLabs\Commandment\Argument;
+use DecodeLabs\Commandment\Request;
 use DecodeLabs\Genesis\FileTemplate;
-use DecodeLabs\Terminus as Cli;
+use DecodeLabs\Terminus\Session;
 
 trait GenerateFileTrait
 {
-    public function execute(): bool
-    {
-        Cli::$command
-            ->addArgument('-check|c', 'Check if file exists');
+    #[Argument\Flag(
+        name: 'check',
+        shortcut: 'c',
+        description: 'Check if file exists',
+    )]
+    public function __construct(
+        protected Session $io,
+        protected Request $request
+    ) {
+    }
 
+    public function execute(
+        Request $request
+    ): bool {
         $target = $this->getTargetFile();
 
         if (
             $target->exists() &&
             (
-                Cli::$command['check'] ||
-                !Cli::confirm($target->getName() . ' exists - overwrite?')
+                $request->parameters->getAsBool('check') ||
+                !$this->io->confirm($target->getName() . ' exists - overwrite?')
             )
         ) {
-            Cli::operative($target->getName() . ' exists, skipping');
+            $this->io->operative($target->getName() . ' exists, skipping');
             return true;
         }
 
         $template = $this->getTemplate();
         $template->saveTo($target);
-        Cli::success($target->getName() . ' created');
+        $this->io->success($target->getName() . ' created');
 
         if (!$this->afterFileSave($target)) {
             return false;

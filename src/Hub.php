@@ -12,7 +12,6 @@ namespace DecodeLabs\Clip;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
-use DecodeLabs\Clip;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Fluidity\CastTrait;
 use DecodeLabs\Genesis\Bootstrap;
@@ -130,15 +129,6 @@ class Hub implements HubInterface
                 'vendor' => Monarch::$paths->root . '/vendor'
             ])
             ->registerAsErrorHandler();
-
-        // Setup Archetype
-        Normalizer::ensureRegistered();
-
-        if(Monarch::$container instanceof Container) {
-            Monarch::$container->bindShared(
-                Controller::class
-            );
-        }
     }
 
     /**

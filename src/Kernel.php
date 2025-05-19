@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Clip;
 
 use DecodeLabs\Clip;
-use DecodeLabs\Clip\Controller\Generic as GenericController;
+use DecodeLabs\Clip\Controller\Commandment as CommandmentController;
 use DecodeLabs\Genesis\Context;
 use DecodeLabs\Genesis\Kernel as KernelInterface;
 use DecodeLabs\Monarch;
@@ -20,7 +20,7 @@ use DecodeLabs\Terminus;
 class Kernel implements KernelInterface
 {
     public string $mode {
-        get => 'Clip';
+        get => 'Cli';
     }
 
     protected Context $context;
@@ -32,14 +32,8 @@ class Kernel implements KernelInterface
         $this->context = $context;
     }
 
-    /**
-     * Initialize platform systems
-     */
     public function initialize(): void
     {
-        // Normalizer
-        Normalizer::ensureRegistered();
-
         // Controller
         if (
             Monarch::$container instanceof Container &&
@@ -47,26 +41,42 @@ class Kernel implements KernelInterface
         ) {
             Monarch::$container->bindShared(
                 Controller::class,
-                GenericController::class
+                CommandmentController::class
             );
+        }
+
+        // Signals
+        if (function_exists('pcntl_signal')) {
+            pcntl_async_signals(true);
+            $signals = [SIGTERM, SIGINT, SIGQUIT];
+
+            foreach ($signals as $signal) {
+                pcntl_signal($signal, function() {
+                    Terminus::newLine();
+                    $this->shutdown();
+                }, false);
+            }
         }
     }
 
-    /**
-     * Run app
-     */
     public function run(): void
     {
         set_time_limit(0);
 
         /** @var array<string> */
         $args = array_values(Terminus::getRequest()->getArguments());
+
+        if(empty($args)) {
+            Terminus::newLine();
+            Terminus::write('Command failed: ');
+            Terminus::error('No action specified');
+            Terminus::newLine();
+            $this->shutdown();
+        }
+
         $this->result = Clip::run(...$args);
     }
 
-    /**
-     * Shutdown app
-     */
     public function shutdown(): never
     {
         match ($this->result) {

@@ -11,7 +11,7 @@ namespace DecodeLabs\Clip\Tests;
 
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\File;
-use DecodeLabs\Clip\Task\GenerateFileTrait;
+use DecodeLabs\Clip\Action\GenerateFileTrait;
 use DecodeLabs\Genesis\FileTemplate;
 
 class AnalyzeGenerateFileTrait
