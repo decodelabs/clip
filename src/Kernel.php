@@ -11,6 +11,7 @@ namespace DecodeLabs\Clip;
 
 use DecodeLabs\Clip;
 use DecodeLabs\Clip\Controller\Commandment as CommandmentController;
+use DecodeLabs\Coercion;
 use DecodeLabs\Genesis\Context;
 use DecodeLabs\Genesis\Kernel as KernelInterface;
 use DecodeLabs\Monarch;
@@ -64,7 +65,8 @@ class Kernel implements KernelInterface
         set_time_limit(0);
 
         /** @var array<string> */
-        $args = array_values(Terminus::getRequest()->getArguments());
+        $args = Coercion::toArray($_SERVER['argv']);
+        array_shift($args);
 
         if(empty($args)) {
             Terminus::newLine();
