@@ -35,13 +35,13 @@ namespace MyThing;
 use DecodeLabs\Archetype;
 use DecodeLabs\Clip\Controller as ControllerInterface;
 use DecodeLabs\Clip\Hub as ClipHub;
-use DecodeLabs\Clip\Task as TaskInterface;
+use DecodeLabs\Commandment\Action as ActionInterface;
 use DecodeLabs\Monarch;
 use DecodeLabs\Pandora\Container;
 use DecodeLabs\Veneer;
 use MyThing;
-use MyThing\Controller;
-use MyThing\Task;
+use MyThing\Controller as MyThingController;
+use MyThing\Action;
 
 class Hub extends ClipHub
 {
@@ -50,18 +50,15 @@ class Hub extends ClipHub
         parent::initializePlatform();
 
         // Load tasks from local namespace
-        Archetype::map(TaskInterface::class, Task::class);
+        Archetype::map(ActionInterface::class, Action::class);
 
         // Create and load your controller (or use Generic)
         if(Monarch::$container instanceof Container) {
-            $controller = new Controller();
+            $controller = new MyThingController();
 
             Monarch::$container->bindShared(ControllerInterface::class, $controller);
-            Monarch::$container->bindShared(Controller::class, $controller);
+            Monarch::$container->bindShared(MyThingController::class, $controller);
         }
-
-        // Bind your controller with Veneer
-        Veneer::register(Controller::class, MyThing::class);
     }
 }
 ```
@@ -90,14 +87,16 @@ new BinBootstrap(Hub::class)->run();
 Define your task:
 
 ```php
-namespace MyThing\Task;
+namespace MyThing\Action;
 
-use DecodeLabs\Clip\Task;
+use DecodeLabs\Commandment\Action;
+use DecodeLabs\Commandment\Request;
 
-class MyTask implements Task
+class MyAction implements Action
 {
-    public function execute(): bool
-    {
+    public function execute(
+        Request $request
+    ): bool {
         // Do the thing
         return true;
     }
@@ -105,18 +104,49 @@ class MyTask implements Task
 ```
 
 ```bash
-composer exec thing my-task
+composer exec thing my-action
 
 # or with effigy
-effigy thing my-task
+effigy thing my-action
 ```
 
-### Extending
+### IO
 
-Use the `MyThing` Controller Veneer frontage to run sub-tasks, and build on it to create your library's ecosystem with an easily accessed root.
+When writing back to the terminal, you _can_ use `Terminus` via it's `Veneer` frontage directly:
 
-See [Effigy](https://github.com/decodelabs/genesis) and [Zest](https://github.com/decodelabs/zest) for examples.
+```php
+use DecodeLabs\Terminus as Cli;
 
+Cli::writeLine('Hello world');
+```
+
+However, this will tightly couple your Action to the STD output stream. To make your Actions as portable as possible, you should import the Terminus `Session` in your Action constructor using Commandment's dependency injection:
+
+```php
+namespace MyThing\Action;
+
+use DecodeLabs\Commandment\Action;
+use DecodeLabs\Commandment\Request;
+use DecodeLabs\Terminus\Session;
+
+class MyAction implements Action
+{
+    public function __construct(
+        private Session $io
+    ) {
+    }
+
+    public function execute(
+        Request $request
+    ): bool {
+        $this->io->writeLine('Hello world');
+
+        return true;
+    }
+}
+```
+
+Then, any calling code can provide an alternative `Session` instance to the `Dispatcher` to allow your Action to run in a different context.
 
 ## Licensing
 
