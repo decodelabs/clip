@@ -11,6 +11,7 @@ namespace DecodeLabs\Clip;
 
 use DecodeLabs\Clip;
 use DecodeLabs\Commandment\Action;
+use DecodeLabs\Terminus\Session;
 use DecodeLabs\Veneer;
 
 interface Controller
@@ -38,6 +39,8 @@ interface Controller
     public function getActionClass(
         string $name
     ): ?string;
+
+    public function getIoSession(): Session;
 }
 
 Veneer::register(

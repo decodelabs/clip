@@ -53,7 +53,9 @@ class Kernel implements KernelInterface
 
             foreach ($signals as $signal) {
                 pcntl_signal($signal, function() {
-                    Terminus::newLine();
+                    $io = Clip::getIoSession();
+                    $io->newLine();
+
                     $this->shutdown();
                 }, false);
             }
@@ -69,10 +71,13 @@ class Kernel implements KernelInterface
         array_shift($args);
 
         if(empty($args)) {
-            Terminus::newLine();
-            Terminus::write('Command failed: ');
-            Terminus::error('No action specified');
-            Terminus::newLine();
+            $io = Clip::getIoSession();
+
+            $io->newLine();
+            $io->write('Command failed: ');
+            $io->error('No action specified');
+            $io->newLine();
+
             $this->shutdown();
         }
 

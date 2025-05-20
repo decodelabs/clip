@@ -13,7 +13,6 @@ use DecodeLabs\Clip\Controller;
 use DecodeLabs\Commandment\Dispatcher;
 use DecodeLabs\Commandment\Exception as CommandmentException;
 use DecodeLabs\Commandment\NotFoundException as CommandNotFoundException;
-use DecodeLabs\Commandment\Request\Fragment;
 use DecodeLabs\Terminus;
 use DecodeLabs\Terminus\Session;
 

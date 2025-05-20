@@ -8,6 +8,7 @@ namespace DecodeLabs;
 use DecodeLabs\Veneer\Proxy as Proxy;
 use DecodeLabs\Veneer\ProxyTrait as ProxyTrait;
 use DecodeLabs\Clip\Controller as Inst;
+use DecodeLabs\Terminus\Session as Ref0;
 
 class Clip implements Proxy
 {
@@ -29,5 +30,8 @@ class Clip implements Proxy
     }
     public static function getActionClass(string $name): ?string {
         return static::$_veneerInstance->getActionClass(...func_get_args());
+    }
+    public static function getIoSession(): Ref0 {
+        return static::$_veneerInstance->getIoSession();
     }
 };
