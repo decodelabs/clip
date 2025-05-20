@@ -15,7 +15,7 @@
         "decodelabs/archetype": "^0.3.8",
         "decodelabs/atlas": "^0.12.3",
         "decodelabs/coercion": "^0.3",
-        "decodelabs/commandment": "^0.1.1",
+        "decodelabs/commandment": "^0.2",
         "decodelabs/dictum": "^0.6.9",
         "decodelabs/exceptional": "^0.5.2",
         "decodelabs/fluidity": "^0.3.6",

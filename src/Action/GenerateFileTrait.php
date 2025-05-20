@@ -36,7 +36,7 @@ trait GenerateFileTrait
         if (
             $target->exists() &&
             (
-                $request->parameters->getAsBool('check') ||
+                $request->parameters->asBool('check') ||
                 !$this->io->confirm($target->getName() . ' exists - overwrite?')
             )
         ) {
