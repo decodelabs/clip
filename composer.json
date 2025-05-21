@@ -13,7 +13,7 @@
         "composer-runtime-api": "^2.2",
 
         "decodelabs/archetype": "^0.3.8",
-        "decodelabs/atlas": "^0.12.3",
+        "decodelabs/atlas": "^0.13",
         "decodelabs/coercion": "^0.3",
         "decodelabs/commandment": "^0.2",
         "decodelabs/dictum": "^0.6.9",
@@ -22,7 +22,7 @@
         "decodelabs/genesis": "^0.12.1",
         "decodelabs/glitch": "^0.19",
         "decodelabs/pandora": "^0.3.1",
-        "decodelabs/terminus": "^0.12",
+        "decodelabs/terminus": "^0.13",
         "decodelabs/veneer": "^0.12.6"
     },
     "require-dev": {

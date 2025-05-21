@@ -60,9 +60,9 @@ class Hub implements HubInterface
         $composerFile = $this->findComposerJson($workingDir);
         $appDir = $composerFile->getParent() ?? $workingDir;
 
-        Monarch::$paths->root = $appDir->getPath();
-        Monarch::$paths->run = $appDir->getPath();
-        Monarch::$paths->working = $workingDir->getPath();
+        Monarch::$paths->root = $appDir->path;
+        Monarch::$paths->run = $appDir->path;
+        Monarch::$paths->working = $workingDir->path;
         Monarch::$paths->localData = sys_get_temp_dir();
         Monarch::$paths->sharedData = sys_get_temp_dir();
     }

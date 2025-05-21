@@ -16,7 +16,6 @@ use DecodeLabs\Genesis\Context;
 use DecodeLabs\Genesis\Kernel as KernelInterface;
 use DecodeLabs\Monarch;
 use DecodeLabs\Pandora\Container;
-use DecodeLabs\Terminus;
 
 class Kernel implements KernelInterface
 {

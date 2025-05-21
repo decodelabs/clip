@@ -37,16 +37,16 @@ trait GenerateFileTrait
             $target->exists() &&
             (
                 $request->parameters->asBool('check') ||
-                !$this->io->confirm($target->getName() . ' exists - overwrite?')
+                !$this->io->confirm($target->name . ' exists - overwrite?')
             )
         ) {
-            $this->io->operative($target->getName() . ' exists, skipping');
+            $this->io->operative($target->name . ' exists, skipping');
             return true;
         }
 
         $template = $this->getTemplate();
         $template->saveTo($target);
-        $this->io->success($target->getName() . ' created');
+        $this->io->success($target->name . ' created');
 
         if (!$this->afterFileSave($target)) {
             return false;

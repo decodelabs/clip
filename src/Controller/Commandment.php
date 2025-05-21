@@ -13,7 +13,6 @@ use DecodeLabs\Clip\Controller;
 use DecodeLabs\Commandment\Dispatcher;
 use DecodeLabs\Commandment\Exception as CommandmentException;
 use DecodeLabs\Commandment\NotFoundException as CommandNotFoundException;
-use DecodeLabs\Terminus;
 use DecodeLabs\Terminus\Session;
 
 class Commandment extends Dispatcher implements Controller
@@ -63,7 +62,11 @@ class Commandment extends Dispatcher implements Controller
 
     public function getIoSession(): Session
     {
-        return $this->slingshot->getType(Session::class) ??
-            Terminus::getSession();
+        if(!$session = $this->slingshot->getType(Session::class)) {
+            $session = Session::getDefault();
+            $this->slingshot->addType($session);
+        }
+
+        return $session;
     }
 }
