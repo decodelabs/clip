@@ -123,11 +123,6 @@ class Hub implements HubInterface
     {
         // Setup Glitch
         Glitch::setStartTime($this->context->getstartTime())
-            ->setRunMode(Monarch::getEnvironmentMode()->value)
-            ->registerPathAliases([
-                'app' => Monarch::$paths->root,
-                'vendor' => Monarch::$paths->root . '/vendor'
-            ])
             ->registerAsErrorHandler();
     }
 
