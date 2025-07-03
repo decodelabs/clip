@@ -24,7 +24,7 @@ class Kernel implements KernelInterface
     }
 
     protected Context $context;
-    protected ?bool $result = null;
+    protected bool|int|null $result = null;
 
     public function __construct(
         Context $context
@@ -51,12 +51,13 @@ class Kernel implements KernelInterface
             $signals = [SIGTERM, SIGINT, SIGQUIT];
 
             foreach ($signals as $signal) {
-                pcntl_signal($signal, function() {
+                pcntl_signal($signal, function(int $signal) {
                     $io = Clip::getIoSession();
                     $io->newLine();
 
+                    $this->result = 128 + $signal;
                     $this->shutdown();
-                }, false);
+                });
             }
         }
     }
@@ -88,7 +89,8 @@ class Kernel implements KernelInterface
         match ($this->result) {
             true => exit(0),
             false => exit(1),
-            null => exit(1)
+            null => exit(1),
+            default => exit($this->result)
         };
     }
 }
