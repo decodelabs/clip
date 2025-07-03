@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+--
+
+---
+
+### [v0.5.6](https://github.com/decodelabs/clip/commits/v0.5.6) - 3rd July 2025
+
 - Added support for signal handler numeric exit codes
+
+[Full list of changes](https://github.com/decodelabs/clip/compare/v0.5.5...v0.5.6)
 
 ---
 
