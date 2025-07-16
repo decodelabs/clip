@@ -18,11 +18,13 @@ class AnalyzeGenerateFileTrait
 {
     use GenerateFileTrait;
 
-    protected function getTargetFile(): File {
+    protected function getTargetFile(): File
+    {
         return Atlas::file('/path/to/target');
     }
 
-    protected function getTemplate(): FileTemplate {
+    protected function getTemplate(): FileTemplate
+    {
         return new FileTemplate('/path/to/template');
     }
 }

@@ -51,7 +51,7 @@ class Kernel implements KernelInterface
             $signals = [SIGTERM, SIGINT, SIGQUIT];
 
             foreach ($signals as $signal) {
-                pcntl_signal($signal, function(int $signal) {
+                pcntl_signal($signal, function (int $signal) {
                     $io = Clip::getIoSession();
                     $io->newLine();
 
@@ -70,7 +70,7 @@ class Kernel implements KernelInterface
         $args = Coercion::toArray($_SERVER['argv']);
         array_shift($args);
 
-        if(empty($args)) {
+        if (empty($args)) {
             $io = Clip::getIoSession();
 
             $io->newLine();

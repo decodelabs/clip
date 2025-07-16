@@ -41,7 +41,7 @@ class Commandment extends Dispatcher implements Controller
 
         try {
             return $this->dispatch($request);
-        } catch(CommandNotFoundException $e) {
+        } catch (CommandNotFoundException $e) {
             $session = $this->getIoSession();
 
             $session->newLine();
@@ -49,7 +49,7 @@ class Commandment extends Dispatcher implements Controller
             $session->error($name);
             $session->newLine();
             return false;
-        } catch(CommandmentException $e) {
+        } catch (CommandmentException $e) {
             $session = $this->getIoSession();
 
             $session->newLine();
@@ -62,7 +62,7 @@ class Commandment extends Dispatcher implements Controller
 
     public function getIoSession(): Session
     {
-        if(!$session = $this->slingshot->getType(Session::class)) {
+        if (!$session = $this->slingshot->getType(Session::class)) {
             $session = Session::getDefault();
             $this->slingshot->addType($session);
         }

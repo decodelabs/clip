@@ -24,8 +24,6 @@ use DecodeLabs\Genesis\Hub as HubInterface;
 use DecodeLabs\Genesis\Loader\Stack as StackLoader;
 use DecodeLabs\Glitch;
 use DecodeLabs\Monarch;
-use DecodeLabs\Pandora\Container;
-use DecodeLabs\Veneer;
 
 class Hub implements HubInterface
 {
@@ -49,7 +47,7 @@ class Hub implements HubInterface
         Context $context,
         Bootstrap $bootstrap
     ) {
-        if(!($bootstrap instanceof BinBootstrap)) {
+        if (!($bootstrap instanceof BinBootstrap)) {
             throw Exceptional::InvalidArgument(
                 'Bootstrap must be a DecodeLabs\\Genesis\\Bootstrap\\Bin'
             );

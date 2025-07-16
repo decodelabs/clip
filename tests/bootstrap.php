@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package Clip
  * @license http://opensource.org/licenses/MIT
@@ -11,7 +12,6 @@ namespace DecodeLabs\Clip;
 require_once 'vendor/autoload.php';
 
 use DecodeLabs\Genesis\Bootstrap\Analysis;
-use DecodeLabs\Clip\Hub;
 
 new Analysis(
     hubClass: Hub::class
