@@ -12,7 +12,7 @@ namespace DecodeLabs\Clip\Tests;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\File;
 use DecodeLabs\Clip\Action\GenerateFileTrait;
-use DecodeLabs\Genesis\FileTemplate;
+use DecodeLabs\Hatch\FileTemplate;
 
 class AnalyzeGenerateFileTrait
 {
@@ -20,7 +20,7 @@ class AnalyzeGenerateFileTrait
 
     protected function getTargetFile(): File
     {
-        return Atlas::file('/path/to/target');
+        return Atlas::getFile('/path/to/target');
     }
 
     protected function getTemplate(): FileTemplate

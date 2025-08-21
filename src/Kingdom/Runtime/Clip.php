@@ -7,44 +7,30 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Clip;
+namespace DecodeLabs\Kingdom\Runtime;
 
-use DecodeLabs\Clip;
-use DecodeLabs\Clip\Controller\Commandment as CommandmentController;
+use DecodeLabs\Clip as ClipService;
 use DecodeLabs\Coercion;
-use DecodeLabs\Genesis\Context;
-use DecodeLabs\Genesis\Kernel as KernelInterface;
-use DecodeLabs\Monarch;
-use DecodeLabs\Pandora\Container;
+use DecodeLabs\Kingdom\Runtime;
+use DecodeLabs\Kingdom\RuntimeMode;
+use DecodeLabs\Terminus\Session;
 
-class Kernel implements KernelInterface
+class Clip implements Runtime
 {
-    public string $mode {
-        get => 'Cli';
+    public RuntimeMode $mode {
+        get => RuntimeMode::Cli;
     }
 
-    protected Context $context;
     protected bool|int|null $result = null;
 
     public function __construct(
-        Context $context
+        protected Session $io,
+        protected ClipService $clip
     ) {
-        $this->context = $context;
     }
 
     public function initialize(): void
     {
-        // Controller
-        if (
-            Monarch::$container instanceof Container &&
-            !Monarch::$container->has(Controller::class)
-        ) {
-            Monarch::$container->bindShared(
-                Controller::class,
-                CommandmentController::class
-            );
-        }
-
         // Signals
         if (function_exists('pcntl_signal')) {
             pcntl_async_signals(true);
@@ -52,8 +38,7 @@ class Kernel implements KernelInterface
 
             foreach ($signals as $signal) {
                 pcntl_signal($signal, function (int $signal) {
-                    $io = Clip::getIoSession();
-                    $io->newLine();
+                    $this->io->newLine();
 
                     $this->result = 128 + $signal;
                     $this->shutdown();
@@ -71,17 +56,15 @@ class Kernel implements KernelInterface
         array_shift($args);
 
         if (empty($args)) {
-            $io = Clip::getIoSession();
-
-            $io->newLine();
-            $io->write('Command failed: ');
-            $io->error('No action specified');
-            $io->newLine();
+            $this->io->newLine();
+            $this->io->write('Command failed: ');
+            $this->io->error('No action specified');
+            $this->io->newLine();
 
             $this->shutdown();
         }
 
-        $this->result = Clip::run(...$args);
+        $this->result = $this->clip->run(...$args);
     }
 
     public function shutdown(): never

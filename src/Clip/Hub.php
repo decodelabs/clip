@@ -9,42 +9,42 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Clip;
 
+use DecodeLabs\Archetype;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
 use DecodeLabs\Exceptional;
 use DecodeLabs\Fluidity\CastTrait;
+use DecodeLabs\Genesis;
 use DecodeLabs\Genesis\Bootstrap;
 use DecodeLabs\Genesis\Bootstrap\Bin as BinBootstrap;
 use DecodeLabs\Genesis\Build;
 use DecodeLabs\Genesis\Build\Manifest as BuildManifest;
-use DecodeLabs\Genesis\Context;
 use DecodeLabs\Genesis\Environment\Config as EnvConfig;
 use DecodeLabs\Genesis\Hub as HubInterface;
-use DecodeLabs\Genesis\Loader\Stack as StackLoader;
 use DecodeLabs\Glitch;
+use DecodeLabs\Kingdom;
+use DecodeLabs\KingdomTrait;
+use DecodeLabs\Kingdom\Runtime;
+use DecodeLabs\Kingdom\Runtime\Clip as ClipRuntime;
 use DecodeLabs\Monarch;
+use DecodeLabs\Pandora\Container;
+use DecodeLabs\Veneer;
 
 class Hub implements HubInterface
 {
     use CastTrait;
 
-    public string $applicationName {
-        get => 'Clip';
-    }
-
-    public string $applicationPath {
-        get => Monarch::$paths->root;
-    }
-
     public ?BuildManifest $buildManifest {
         get => null;
     }
 
-    protected Context $context;
+    protected Genesis $genesis;
+    protected Container $container;
+    protected Archetype $archetype;
 
     public function __construct(
-        Context $context,
+        Genesis $genesis,
         Bootstrap $bootstrap
     ) {
         if (!($bootstrap instanceof BinBootstrap)) {
@@ -53,22 +53,28 @@ class Hub implements HubInterface
             );
         }
 
-        $this->context = $context;
-        $workingDir = Atlas::dir($bootstrap->rootPath);
+        $this->genesis = $genesis;
+        $workingDir = Atlas::getDir($bootstrap->rootPath);
         $composerFile = $this->findComposerJson($workingDir);
         $appDir = $composerFile->getParent() ?? $workingDir;
 
-        Monarch::$paths->root = $appDir->path;
-        Monarch::$paths->run = $appDir->path;
-        Monarch::$paths->working = $workingDir->path;
-        Monarch::$paths->localData = sys_get_temp_dir();
-        Monarch::$paths->sharedData = sys_get_temp_dir();
+        $paths = Monarch::getPaths();
+        $paths->root = $appDir->path;
+        $paths->run = $appDir->path;
+        $paths->working = $workingDir->path;
+        $paths->localData = sys_get_temp_dir();
+        $paths->sharedData = sys_get_temp_dir();
+
+        $this->container = new Container();
+
+        if (class_exists(Veneer::class)) {
+            Veneer::setContainer($this->container);
+        }
+
+        $this->archetype = $this->container->getOrCreate(Archetype::class);
     }
 
 
-    /**
-     * Find composer json
-     */
     protected function findComposerJson(
         Dir $runDir
     ): File {
@@ -87,48 +93,45 @@ class Hub implements HubInterface
         return $runDir->getFile('composer.json');
     }
 
-    /**
-     * Load build info
-     */
     public function loadBuild(): Build
     {
         return new Build(
-            $this->context,
-            Monarch::$paths->run
+            $this->genesis,
+            Monarch::getPaths()->run
         );
     }
 
-    /**
-     * Setup loaders
-     */
-    public function initializeLoaders(
-        StackLoader $stack
-    ): void {
+    public function initializeLoaders(): void
+    {
     }
 
-    /**
-     * Load env config
-     */
     public function loadEnvironmentConfig(): EnvConfig
     {
         return new EnvConfig\Development();
     }
 
-    /**
-     * Initialize platform
-     */
     public function initializePlatform(): void
     {
         // Setup Glitch
-        Glitch::setStartTime($this->context->getstartTime())
-            ->registerAsErrorHandler();
+        $glitch = $this->container->get(Glitch::class);
+        $glitch->setStartTime(Monarch::getStartTime());
+        $glitch->registerAsErrorHandler();
     }
 
-    /**
-     * Load kernel
-     */
-    public function loadKernel(): Kernel
+    public function loadKingdom(): Kingdom
     {
-        return new Kernel($this->context);
+        return new class ($this->container) implements Kingdom {
+            use KingdomTrait;
+
+            public string $name { get => 'Clip application'; }
+
+            public function initialize(): void
+            {
+                $this->container->setType(
+                    Runtime::class,
+                    ClipRuntime::class
+                );
+            }
+        };
     }
 }

@@ -33,14 +33,8 @@ Define your Genesis Hub by extending Clip's abstract implementation:
 namespace MyThing;
 
 use DecodeLabs\Archetype;
-use DecodeLabs\Clip\Controller as ControllerInterface;
 use DecodeLabs\Clip\Hub as ClipHub;
 use DecodeLabs\Commandment\Action as ActionInterface;
-use DecodeLabs\Monarch;
-use DecodeLabs\Pandora\Container;
-use DecodeLabs\Veneer;
-use MyThing;
-use MyThing\Controller as MyThingController;
 use MyThing\Action;
 
 class Hub extends ClipHub
@@ -50,15 +44,8 @@ class Hub extends ClipHub
         parent::initializePlatform();
 
         // Load tasks from local namespace
-        Archetype::map(ActionInterface::class, Action::class);
-
-        // Create and load your controller (or use Generic)
-        if(Monarch::$container instanceof Container) {
-            $controller = new MyThingController();
-
-            Monarch::$container->bindShared(ControllerInterface::class, $controller);
-            Monarch::$container->bindShared(MyThingController::class, $controller);
-        }
+        $archetype = $this->container->get(Archetype::class);
+        $archetype->map(ActionInterface::class, Action::class);
     }
 }
 ```
@@ -112,15 +99,17 @@ effigy thing my-action
 
 ### IO
 
-When writing back to the terminal, you _can_ use `Terminus` via it's `Veneer` frontage directly:
+When writing back to the terminal, you _can_ use a `Terminus\Session`:
 
 ```php
-use DecodeLabs\Terminus as Cli;
+use DecodeLabs\Monarch;
+use DecodeLabs\Terminus\Session;
 
-Cli::writeLine('Hello world');
+$io = Monarch::getService(Session::class);
+$io->$writeLine('Hello world');
 ```
 
-However, this will tightly couple your Action to the STD output stream. To make your Actions as portable as possible, you should import the Terminus `Session` in your Action constructor using Commandment's dependency injection:
+To make your Actions as portable as possible, you should import the Terminus `Session` in your Action constructor using Commandment's dependency injection:
 
 ```php
 namespace MyThing\Action;

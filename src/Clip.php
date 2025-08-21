@@ -7,16 +7,27 @@
 
 declare(strict_types=1);
 
-namespace DecodeLabs\Clip\Controller;
+namespace DecodeLabs;
 
-use DecodeLabs\Clip\Controller;
+use DecodeLabs\Archetype;
 use DecodeLabs\Commandment\Dispatcher;
 use DecodeLabs\Commandment\Exception as CommandmentException;
 use DecodeLabs\Commandment\NotFoundException as CommandNotFoundException;
+use DecodeLabs\Kingdom\Service;
+use DecodeLabs\Kingdom\ServiceTrait;
 use DecodeLabs\Terminus\Session;
 
-class Commandment extends Dispatcher implements Controller
+class Clip extends Dispatcher implements Service
 {
+    use ServiceTrait;
+
+    public function __construct(
+        protected Archetype $archetype,
+        protected Session $io
+    ) {
+        parent::__construct($archetype);
+    }
+
     public function run(
         string $action,
         string ...$args
@@ -42,7 +53,7 @@ class Commandment extends Dispatcher implements Controller
         try {
             return $this->dispatch($request);
         } catch (CommandNotFoundException $e) {
-            $session = $this->getIoSession();
+            $session = $this->io;
 
             $session->newLine();
             $session->writeError('Command not found: ');
@@ -50,7 +61,7 @@ class Commandment extends Dispatcher implements Controller
             $session->newLine();
             return false;
         } catch (CommandmentException $e) {
-            $session = $this->getIoSession();
+            $session = $this->io;
 
             $session->newLine();
             $session->writeError('Command failed: ');
@@ -58,15 +69,5 @@ class Commandment extends Dispatcher implements Controller
             $session->newLine();
             return false;
         }
-    }
-
-    public function getIoSession(): Session
-    {
-        if (!$session = $this->slingshot->getType(Session::class)) {
-            $session = Session::getDefault();
-            $this->slingshot->addType($session);
-        }
-
-        return $session;
     }
 }

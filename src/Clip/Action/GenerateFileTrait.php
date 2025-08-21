@@ -12,7 +12,7 @@ namespace DecodeLabs\Clip\Action;
 use DecodeLabs\Atlas\File;
 use DecodeLabs\Commandment\Argument;
 use DecodeLabs\Commandment\Request;
-use DecodeLabs\Genesis\FileTemplate;
+use DecodeLabs\Hatch\FileTemplate;
 use DecodeLabs\Terminus\Session;
 
 trait GenerateFileTrait
