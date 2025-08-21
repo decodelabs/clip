@@ -24,9 +24,9 @@ use DecodeLabs\Genesis\Environment\Config as EnvConfig;
 use DecodeLabs\Genesis\Hub as HubInterface;
 use DecodeLabs\Glitch;
 use DecodeLabs\Kingdom;
-use DecodeLabs\KingdomTrait;
 use DecodeLabs\Kingdom\Runtime;
 use DecodeLabs\Kingdom\Runtime\Clip as ClipRuntime;
+use DecodeLabs\KingdomTrait;
 use DecodeLabs\Monarch;
 use DecodeLabs\Pandora\Container;
 use DecodeLabs\Veneer;
@@ -120,7 +120,7 @@ class Hub implements HubInterface
 
     public function loadKingdom(): Kingdom
     {
-        return new class ($this->container) implements Kingdom {
+        return new class($this->container) implements Kingdom {
             use KingdomTrait;
 
             public string $name { get => 'Clip application'; }

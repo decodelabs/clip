@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace DecodeLabs;
 
-use DecodeLabs\Archetype;
 use DecodeLabs\Commandment\Dispatcher;
 use DecodeLabs\Commandment\Exception as CommandmentException;
 use DecodeLabs\Commandment\NotFoundException as CommandNotFoundException;
