@@ -5,12 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+--
+
+---
+
+### [v0.6.0](https://github.com/decodelabs/clip/commits/v0.6.0) - 21st August 2025
+
 - Implemented Kingdom Runtime
 - Removed Veneer dependency
 - Removed Controller interface structure
 - Converted Commandment Controller to primary Service
 - Simplified Genesis Hub
 - Switched to Hatch FileTemplate
+
+[Full list of changes](https://github.com/decodelabs/clip/compare/v0.5.7...v0.6.0)
 
 ---
 
