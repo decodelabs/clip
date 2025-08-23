@@ -13,11 +13,8 @@ use DecodeLabs\Archetype;
 use DecodeLabs\Atlas;
 use DecodeLabs\Atlas\Dir;
 use DecodeLabs\Atlas\File;
-use DecodeLabs\Exceptional;
-use DecodeLabs\Fluidity\CastTrait;
 use DecodeLabs\Genesis;
-use DecodeLabs\Genesis\Bootstrap;
-use DecodeLabs\Genesis\Bootstrap\Bin as BinBootstrap;
+use DecodeLabs\Genesis\AnalysisMode;
 use DecodeLabs\Genesis\Build;
 use DecodeLabs\Genesis\Build\Manifest as BuildManifest;
 use DecodeLabs\Genesis\Environment\Config as EnvConfig;
@@ -33,28 +30,18 @@ use DecodeLabs\Veneer;
 
 class Hub implements HubInterface
 {
-    use CastTrait;
-
     public ?BuildManifest $buildManifest {
         get => null;
     }
 
-    protected Genesis $genesis;
     protected Container $container;
     protected Archetype $archetype;
 
     public function __construct(
-        Genesis $genesis,
-        Bootstrap $bootstrap
+        protected Genesis $genesis,
+        protected ?AnalysisMode $analysisMode = null
     ) {
-        if (!($bootstrap instanceof BinBootstrap)) {
-            throw Exceptional::InvalidArgument(
-                'Bootstrap must be a DecodeLabs\\Genesis\\Bootstrap\\Bin'
-            );
-        }
-
-        $this->genesis = $genesis;
-        $workingDir = Atlas::getDir($bootstrap->rootPath);
+        $workingDir = Atlas::getDir((string)getcwd());
         $composerFile = $this->findComposerJson($workingDir);
         $appDir = $composerFile->getParent() ?? $workingDir;
 
