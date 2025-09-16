@@ -52,20 +52,16 @@ class Clip extends Dispatcher implements Service
         try {
             return $this->dispatch($request);
         } catch (CommandNotFoundException $e) {
-            $session = $this->io;
-
-            $session->newLine();
-            $session->writeError('Command not found: ');
-            $session->error($name);
-            $session->newLine();
+            $this->io->newLine();
+            $this->io->writeError('Command not found: ');
+            $this->io->error($name);
+            $this->io->newLine();
             return false;
         } catch (CommandmentException $e) {
-            $session = $this->io;
-
-            $session->newLine();
-            $session->writeError('Command failed: ');
-            $session->error($e->getMessage());
-            $session->newLine();
+            $this->io->newLine();
+            $this->io->writeError('Command failed: ');
+            $this->io->error($e->getMessage());
+            $this->io->newLine();
             return false;
         }
     }

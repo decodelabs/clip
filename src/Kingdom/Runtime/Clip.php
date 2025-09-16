@@ -14,6 +14,7 @@ use DecodeLabs\Coercion;
 use DecodeLabs\Kingdom\Runtime;
 use DecodeLabs\Kingdom\RuntimeMode;
 use DecodeLabs\Terminus\Session;
+use Throwable;
 
 class Clip implements Runtime
 {
@@ -64,7 +65,18 @@ class Clip implements Runtime
             $this->shutdown();
         }
 
-        $this->result = $this->clip->run(...$args);
+        try {
+            $this->result = $this->clip->run(...$args);
+        } catch (Throwable $e) {
+            $this->io->newLine();
+            $this->io->writeError('Command failed: ');
+            $this->io->error($e->getMessage());
+            $this->io->newLine();
+            $this->io->{'.white|dim'}($e->getFile() . ':' . $e->getLine());
+            $this->io->newLine();
+            $this->io->newLine();
+            $this->shutdown();
+        }
     }
 
     public function shutdown(): never
