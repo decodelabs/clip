@@ -13,6 +13,7 @@ use DecodeLabs\Clip as ClipService;
 use DecodeLabs\Coercion;
 use DecodeLabs\Kingdom\Runtime;
 use DecodeLabs\Kingdom\RuntimeMode;
+use DecodeLabs\Monarch;
 use DecodeLabs\Terminus\Session;
 use Throwable;
 
@@ -68,6 +69,8 @@ class Clip implements Runtime
         try {
             $this->result = $this->clip->run(...$args);
         } catch (Throwable $e) {
+            Monarch::logException($e);
+
             $this->io->newLine();
             $this->io->writeError('Command failed: ');
             $this->io->error($e->getMessage());

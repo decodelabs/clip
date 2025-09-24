@@ -58,6 +58,8 @@ class Clip extends Dispatcher implements Service
             $this->io->newLine();
             return false;
         } catch (CommandmentException $e) {
+            Monarch::logException($e);
+
             $this->io->newLine();
             $this->io->writeError('Command failed: ');
             $this->io->error($e->getMessage());
