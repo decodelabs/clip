@@ -59,7 +59,7 @@ class Clip implements Runtime
 
         if (empty($args)) {
             $this->io->newLine();
-            $this->io->write('Command failed: ');
+            $this->io->writeError('Command failed: ');
             $this->io->error('No action specified');
             $this->io->newLine();
 
@@ -75,7 +75,7 @@ class Clip implements Runtime
             $this->io->writeError('Command failed: ');
             $this->io->error($e->getMessage());
             $this->io->newLine();
-            $this->io->{'.white|dim'}($e->getFile() . ':' . $e->getLine());
+            $this->io->{'!.white|dim'}($e->getFile() . ':' . $e->getLine());
             $this->io->newLine();
             $this->io->newLine();
             $this->shutdown();
