@@ -15,6 +15,8 @@ Clip provides a framework for building comprehensive CLI based applications on t
 
 ## Installation
 
+This package requires PHP 8.4 or higher.
+
 Install via Composer:
 
 ```bash
