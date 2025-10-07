@@ -120,7 +120,7 @@ class Hub implements HubInterface
 
     public function loadKingdom(): Kingdom
     {
-        return new class ($this->container) implements Kingdom {
+        return new class($this->container) implements Kingdom {
             use KingdomTrait;
 
             public string $name { get => 'Clip application'; }
