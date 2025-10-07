@@ -11,6 +11,7 @@ namespace DecodeLabs\Kingdom\Runtime;
 
 use DecodeLabs\Clip as ClipService;
 use DecodeLabs\Coercion;
+use DecodeLabs\Commandment\Argument\Flag;
 use DecodeLabs\Kingdom\Runtime;
 use DecodeLabs\Kingdom\RuntimeMode;
 use DecodeLabs\Monarch;
@@ -69,6 +70,20 @@ class Clip implements Runtime
         try {
             $this->result = $this->clip->run(...$args);
         } catch (Throwable $e) {
+            $request = $this->clip->newRequest(
+                command: $args[0],
+                arguments: array_values(array_slice($args, 1))
+            );
+
+            $eRequest = $request->withArgument(new Flag(
+                name: 'verbose',
+                shortcut: 'v'
+            ));
+
+            if ($eRequest->parameters->asBool('verbose')) {
+                throw $e;
+            }
+
             Monarch::logException($e);
 
             $this->io->newLine();

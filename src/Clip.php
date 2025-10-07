@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs;
 
+use DecodeLabs\Commandment\Argument\Flag;
 use DecodeLabs\Commandment\Dispatcher;
 use DecodeLabs\Commandment\Exception as CommandmentException;
 use DecodeLabs\Commandment\NotFoundException as CommandNotFoundException;
@@ -59,6 +60,15 @@ class Clip extends Dispatcher implements Service
             return false;
         } catch (CommandmentException $e) {
             Monarch::logException($e);
+
+            $eRequest = $request->withArgument(new Flag(
+                name: 'verbose',
+                shortcut: 'v'
+            ));
+
+            if ($eRequest->parameters->asBool('verbose')) {
+                throw $e;
+            }
 
             $this->io->newLine();
             $this->io->writeError('Command failed: ');
