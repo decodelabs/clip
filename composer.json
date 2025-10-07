@@ -21,7 +21,7 @@
         "decodelabs/glitch": "^0.22",
         "decodelabs/hatch": "^0.1.4",
         "decodelabs/kingdom": "^0.2",
-        "decodelabs/monarch": "^0.2",
+        "decodelabs/monarch": "^0.2.3",
         "decodelabs/pandora": "^0.4",
         "decodelabs/terminus": "^0.14"
     },

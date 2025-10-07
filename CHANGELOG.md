@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 - Added verbose flag to runtime when handling exceptions
+- Fixed root path handling with subjectRoot
 
 ---
 

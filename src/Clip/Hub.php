@@ -41,13 +41,22 @@ class Hub implements HubInterface
         protected Genesis $genesis,
         protected ?AnalysisMode $analysisMode = null
     ) {
+        $paths = Monarch::getPaths();
+        $pRoot = Atlas::getDir($paths->root);
+
+        $rootDir = (
+            $this->findComposerJson($pRoot->getParent() ?? $pRoot) ??
+            $this->findComposerJson($pRoot, default: true)
+        )->getParent() ?? $pRoot;
+
+        $paths->root = $rootDir->path;
+        $paths->run = $rootDir->path;
+
         $workingDir = Atlas::getDir((string)getcwd());
-        $composerFile = $this->findComposerJson($workingDir);
+        $composerFile = $this->findComposerJson($workingDir, default: true);
         $appDir = $composerFile->getParent() ?? $workingDir;
 
-        $paths = Monarch::getPaths();
-        $paths->root = $appDir->path;
-        $paths->run = $appDir->path;
+        $paths->subjectRoot = $appDir->path;
         $paths->working = $workingDir->path;
         $paths->localData = sys_get_temp_dir();
         $paths->sharedData = sys_get_temp_dir();
@@ -62,9 +71,13 @@ class Hub implements HubInterface
     }
 
 
+    /**
+     * @return ($default is true ? File : ?File)
+     */
     protected function findComposerJson(
-        Dir $runDir
-    ): File {
+        Dir $runDir,
+        bool $default = false
+    ): ?File {
         $dir = $runDir;
 
         do {
@@ -77,7 +90,7 @@ class Hub implements HubInterface
             $dir = $dir->getParent();
         } while ($dir !== null);
 
-        return $runDir->getFile('composer.json');
+        return $default ? $runDir->getFile('composer.json') : null;
     }
 
     public function loadBuild(): Build
@@ -107,7 +120,7 @@ class Hub implements HubInterface
 
     public function loadKingdom(): Kingdom
     {
-        return new class($this->container) implements Kingdom {
+        return new class ($this->container) implements Kingdom {
             use KingdomTrait;
 
             public string $name { get => 'Clip application'; }
