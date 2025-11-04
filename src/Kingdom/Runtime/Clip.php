@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @package Clip
- * @license http://opensource.org/licenses/MIT
+ * Clip
+ * @license https://opensource.org/licenses/MIT
  */
 
 declare(strict_types=1);
