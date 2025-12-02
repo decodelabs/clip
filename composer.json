@@ -2,7 +2,7 @@
     "name": "decodelabs/clip",
     "description": "CLI kernel integration for DecodeLabs Genesis",
     "type": "library",
-    "keywords": [],
+    "keywords": [ ],
     "license": "MIT",
     "authors": [
         {
@@ -28,7 +28,7 @@
         "decodelabs/terminus": "^0.14"
     },
     "require-dev": {
-        "decodelabs/chorus": "^0.1",
+        "decodelabs/chorus": ">0",
         "decodelabs/phpstan-decodelabs": "^0.7"
     },
     "autoload": {
